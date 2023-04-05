@@ -1,0 +1,26 @@
+rom keras.models import Sequential
+from keras.layers import Dense, LSTM, Dropout
+
+# define the model architecture
+model = Sequential()
+model.add(LSTM(units=50, input_shape=(X_train.shape[1], X_train.shape[2]), return_sequences=True))
+model.add(Dropout(0.2))
+model.add(LSTM(units=50, return_sequences=True))
+model.add(Dropout(0.2))
+model.add(LSTM(units=50, return_sequences=True))
+model.add(Dropout(0.2))
+model.add(LSTM(units=50))
+model.add(Dropout(0.2))
+model.add(Dense(units=1))
+
+# compile the model
+model.compile(optimizer='adam', loss='mean_squared_error')
+
+# train the model
+model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_test, y_test))
+
+
+
+In this example, we're using an LSTM model with four layers, each with 50 units. We're also applying a dropout rate of 0.2 to each LSTM layer, which will randomly drop out 20% of the input units during training to prevent overfitting. Finally, we're adding a dense layer with a single output unit, which will be used to predict a single target value.
+
+To train the model, we're using the Adam optimizer and mean squared error loss function. We're also splitting the data into training and testing sets and using the validation_data parameter to evaluate the model's performance on the testing set after each epoch of training.
